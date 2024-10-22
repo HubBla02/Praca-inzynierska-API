@@ -28,6 +28,17 @@ namespace CarrentlyTheBestAPI.Services
             return uzytkownik;
         }
 
+        public Uzytkownik GetByEmail(string email)
+        {
+            var uzytkownik = _dbContext.Uzytkownicy
+                                         .FirstOrDefault(u => u.Email == email);
+            if (uzytkownik == null)
+            {
+                return null;
+            }
+            return uzytkownik;
+        }
+
         public bool DeleteById(int id)
         {
             var uzytkownik = _dbContext.Uzytkownicy.FirstOrDefault(p => p.Id == id);
@@ -52,9 +63,25 @@ namespace CarrentlyTheBestAPI.Services
             uzytkownik.Nazwisko = zmiany.Nazwisko;
             uzytkownik.DataUrodzenia = zmiany.DataUrodzenia;
             uzytkownik.RolaId = zmiany.RolaId;
-            uzytkownik.Rola = zmiany.Rola;
             uzytkownik.CzyZablokowany = zmiany.CzyZablokowany;
             uzytkownik.CzyTrzezwy = zmiany.CzyTrzezwy;
+
+            if (zmiany.RolaId == 1)
+            {
+                uzytkownik.Rola = new Rola
+                {
+                    Id = 1,
+                    Nazwa = "User"
+                };
+            }
+            else if (zmiany.RolaId == 2)
+            {
+                uzytkownik.Rola = new Rola
+                {
+                    Id = 2,
+                    Nazwa = "Admin"
+                };
+            }
 
             _dbContext.Uzytkownicy.Update(uzytkownik);
             _dbContext.SaveChanges();

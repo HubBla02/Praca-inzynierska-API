@@ -26,8 +26,15 @@ namespace CarrentlyTheBestAPI.Controllers
         [HttpPost("login")]
         public ActionResult Login([FromBody] Login login)
         {
-            string token = _kontoService.generujJWT(login);
-            return Ok(token);
+            try
+            {
+                string token = _kontoService.generujJWT(login);
+                return Ok(token);
+            }
+            catch (Exception ex)
+            {
+                return Unauthorized(new { message = ex.Message });
+            }
         }
 
     }

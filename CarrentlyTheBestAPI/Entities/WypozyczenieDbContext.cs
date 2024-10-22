@@ -23,5 +23,6 @@ namespace CarrentlyTheBestAPI.Entities
         public DbSet<Pojazd> Pojazdy { get; set; }
         public DbSet<Rola> Role {  get; set; }
         public DbSet<Uzytkownik> Uzytkownicy { get; set; }
+        public DbSet<Zgloszenie> Zgloszenia { get; set; }
     }
 }

@@ -1,4 +1,5 @@
-﻿using CarrentlyTheBestAPI.Entities;
+﻿using CarrentlyTheBestAPI.DTO;
+using CarrentlyTheBestAPI.Entities;
 
 namespace CarrentlyTheBestAPI.Services
 {
@@ -6,8 +7,10 @@ namespace CarrentlyTheBestAPI.Services
     {
         IEnumerable<Pojazd> GetAll();
         Pojazd GetById(int id);
-        int UtworzPojazd(Pojazd pojazd);
-        public bool EdytujPojazd(int id, Pojazd zmiany);
+        Pojazd UtworzPojazd(Pojazd pojazd);
+        public bool EdytujPojazd(int id, PojazdDTO zmiany);
+        bool DodajZdjecie(int id, string sciezkaZdjecia);
+        bool UsunZdjecie(int id);
         bool DeleteById(int id);
     }
 }

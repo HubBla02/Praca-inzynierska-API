@@ -17,6 +17,14 @@ namespace CarrentlyTheBestAPI.Services
             return wypozyczenia;
         }
 
+        public IEnumerable<Wypozyczenie> GetByUserEmail(string email)
+        {
+            return _dbContext.Wypozyczenia
+                .Include(w => w.Pojazd)
+                .Where(w => w.UzytkownikEmail == email)
+                .ToList();
+        }
+
         public Wypozyczenie GetById(int id)
         {
             var wypozyczenie = _dbContext.Wypozyczenia
@@ -33,6 +41,16 @@ namespace CarrentlyTheBestAPI.Services
         {
             var pojazd = _dbContext.Pojazdy.Find(wypozyczenie.PojazdId);
             var uzytkownik = _dbContext.Uzytkownicy.FirstOrDefault(u => u.Email == wypozyczenie.UzytkownikEmail);
+
+            if (pojazd == null || uzytkownik == null)
+            {
+                return -1;
+            }
+
+            pojazd.Dostepny = false;
+            wypozyczenie.DataRozpoczecia = DateTime.SpecifyKind(wypozyczenie.DataRozpoczecia, DateTimeKind.Utc);
+            wypozyczenie.DataZakonczenia = DateTime.SpecifyKind(wypozyczenie.DataZakonczenia, DateTimeKind.Utc);
+
             wypozyczenie.Pojazd = pojazd;
             wypozyczenie.UzytkownikEmail = uzytkownik.Email;
             _dbContext.Wypozyczenia.Add(wypozyczenie);
@@ -41,11 +59,14 @@ namespace CarrentlyTheBestAPI.Services
         }
         public bool DeleteById(int id)
         {
-            var wypozyczenie = _dbContext.Wypozyczenia.FirstOrDefault(p => p.Id == id);
+            var wypozyczenie = _dbContext.Wypozyczenia
+                             .Include(w => w.Pojazd)
+                             .FirstOrDefault(p => p.Id == id);
             if (wypozyczenie == null)
             {
                 return false;
             }
+            wypozyczenie.Pojazd.Dostepny = true;
             _dbContext.Wypozyczenia.Remove(wypozyczenie);
             _dbContext.SaveChanges();
             return true;

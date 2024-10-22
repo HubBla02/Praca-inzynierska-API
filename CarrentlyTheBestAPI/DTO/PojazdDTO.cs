@@ -1,7 +1,10 @@
-﻿namespace CarrentlyTheBestAPI.DTO
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace CarrentlyTheBestAPI.DTO
 {
     public class PojazdDTO
     {
+        public int Id { get; set; }
         public string Typ { get; set; }
         public string Marka { get; set; }
         public string Model { get; set; }
@@ -11,6 +14,5 @@
         public bool Dostepny { get; set; }
         public float CenaK { get; set; }
         public float CenaD { get; set; }
-        public IFormFile Zdjecie { get; set; }
     }
 }

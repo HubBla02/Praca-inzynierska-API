@@ -3,6 +3,7 @@ using System;
 using CarrentlyTheBestAPI.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,13 +12,15 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace CarrentlyTheBestAPI.Migrations
 {
     [DbContext(typeof(WypozyczenieDbContext))]
-    partial class WypozyczenieDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240827124821_dataUrodzenia")]
+    partial class dataUrodzenia
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.8")
+                .HasAnnotation("ProductVersion", "8.0.7")
                 .HasAnnotation("Proxies:ChangeTracking", false)
                 .HasAnnotation("Proxies:CheckEquality", false)
                 .HasAnnotation("Proxies:LazyLoading", true)
@@ -43,25 +46,31 @@ namespace CarrentlyTheBestAPI.Migrations
                         .HasColumnType("boolean");
 
                     b.Property<string>("Marka")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("Model")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("RodzajPaliwa")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("RodzajSkrzyni")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<int>("RokProdukcji")
                         .HasColumnType("integer");
 
-                    b.Property<string>("SciezkaDoZdjecia")
+                    b.Property<string>("Typ")
+                        .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("Typ")
-                        .HasColumnType("text");
+                    b.Property<byte[]>("Zdjecie")
+                        .IsRequired()
+                        .HasColumnType("bytea");
 
                     b.HasKey("Id");
 
@@ -99,8 +108,8 @@ namespace CarrentlyTheBestAPI.Migrations
                     b.Property<bool>("CzyZablokowany")
                         .HasColumnType("boolean");
 
-                    b.Property<DateTime>("DataUrodzenia")
-                        .HasColumnType("timestamp with time zone");
+                    b.Property<DateOnly>("DataUrodzenia")
+                        .HasColumnType("date");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -157,38 +166,6 @@ namespace CarrentlyTheBestAPI.Migrations
                     b.HasIndex("PojazdId");
 
                     b.ToTable("Wypozyczenia");
-                });
-
-            modelBuilder.Entity("CarrentlyTheBestAPI.Entities.Zgloszenie", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<bool>("CzyZamkniete")
-                        .HasColumnType("boolean");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Odpowiedz")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Tresc")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Tytul")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Zgloszenia");
                 });
 
             modelBuilder.Entity("CarrentlyTheBestAPI.Entities.Uzytkownik", b =>

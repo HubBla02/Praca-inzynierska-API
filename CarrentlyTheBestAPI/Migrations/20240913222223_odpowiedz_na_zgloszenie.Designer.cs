@@ -3,6 +3,7 @@ using System;
 using CarrentlyTheBestAPI.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace CarrentlyTheBestAPI.Migrations
 {
     [DbContext(typeof(WypozyczenieDbContext))]
-    partial class WypozyczenieDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240913222223_odpowiedz_na_zgloszenie")]
+    partial class odpowiedz_na_zgloszenie
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

@@ -5,8 +5,10 @@ using CarrentlyTheBestAPI.Validators;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
@@ -38,7 +40,14 @@ builder.Services.AddAuthentication(option =>
 builder.Services.AddRazorPages();
 builder.Services.AddDbContext<WypozyczenieDbContext>(options =>
 options.UseSqlServer(builder.Configuration.GetConnectionString("WypozyczalniaDB")));
-builder.Services.AddControllers().AddFluentValidation();
+builder.Services.AddControllers(options =>
+{
+    options.SuppressImplicitRequiredAttributeForNonNullableReferenceTypes = true;
+}); ;
+builder.Services.Configure<FormOptions>(options =>
+{
+    options.MultipartBodyLengthLimit = 104857600; // 100 MB
+});
 
 builder.Services.AddCors(options =>
 {
@@ -56,6 +65,8 @@ builder.Services.AddScoped<IWypozyczenieService, WypozyczenieService>();
 builder.Services.AddScoped<IKontoService, KontoService>();
 builder.Services.AddScoped<IPasswordHasher<Uzytkownik>, PasswordHasher<Uzytkownik>>();
 builder.Services.AddScoped<IUzytkownikService, UzytkownikService>();
+builder.Services.AddScoped<IZgloszenieService, ZgloszenieService>();
+builder.Services.AddTransient<IFileService, FileService>();
 builder.Services.AddScoped<IValidator<Rejestracja>, RejestracjaValidator>();
 builder.Services.AddSwaggerGen();
 var app = builder.Build();

@@ -41,7 +41,7 @@ namespace CarrentlyTheBestAPI.Services
                 new Claim(ClaimTypes.NameIdentifier, uzytkownik.Id.ToString()),
                 new Claim(ClaimTypes.Name, $"{uzytkownik.Imie} {uzytkownik.Nazwisko}"),
                 new Claim(ClaimTypes.Role, $"{uzytkownik.Rola.Nazwa}"),
-                new Claim("DateOfBirth", uzytkownik.DataUrodzenia.ToString("yyyy-MM-dd"))
+                new Claim(ClaimTypes.Email, $"{uzytkownik.Email}"),
             };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_settings.JwtKey));
@@ -61,7 +61,7 @@ namespace CarrentlyTheBestAPI.Services
                 Nazwisko = uzytkownik.Nazwisko,
                 Email = uzytkownik.Email,
                 DataUrodzenia = uzytkownik.DataUrodzenia,
-                RolaId = uzytkownik.RolaId
+                RolaId = uzytkownik.RolaId,
             };
             var hashed = _hasher.HashPassword(nowyU, uzytkownik.Haslo);
             nowyU.HasloHash = hashed;

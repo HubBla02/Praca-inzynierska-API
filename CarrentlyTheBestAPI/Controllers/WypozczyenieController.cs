@@ -3,11 +3,12 @@ using CarrentlyTheBestAPI.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 
 namespace CarrentlyTheBestAPI.Controllers
 {
     [ApiController]
-    //[Authorize]
+    [Authorize]
     [Route("api/wypozyczenie")]
     public class WypozyczenieController : ControllerBase
     {
@@ -17,9 +18,31 @@ namespace CarrentlyTheBestAPI.Controllers
             _wypozyczenieService = wypozyczenieService;
         }
         [HttpGet("lista")]
+        [Authorize(Roles = "Admin")]
         public ActionResult<IEnumerable<Wypozyczenie>> GetAll()
         {
             var wypozyczenia = _wypozyczenieService.GetAll();
+            return Ok(wypozyczenia);
+        }
+
+        [Authorize]
+        [HttpGet("moje")]
+        public ActionResult<IEnumerable<Wypozyczenie>> GetUserRentals()
+        {
+            var userEmail = User.FindFirst(ClaimTypes.Email).Value;
+
+            if (userEmail == null)
+            {
+                return Unauthorized("Nie znaleziono emaila w tokenie JWT.");
+            }
+
+            var wypozyczenia = _wypozyczenieService.GetByUserEmail(userEmail);
+
+            if (!wypozyczenia.Any())
+            {
+                return NotFound("Nie znaleziono wypożyczeń dla podanego użytkownika.");
+            }
+
             return Ok(wypozyczenia);
         }
 
