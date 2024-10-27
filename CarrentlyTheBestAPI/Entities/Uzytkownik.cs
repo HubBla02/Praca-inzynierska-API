@@ -13,6 +13,8 @@ namespace CarrentlyTheBestAPI.Entities
         public int RolaId { get; set; }
         public bool CzyTrzezwy { get; set; } = false;
         public bool CzyZablokowany { get; set; } = false;
+        public bool CzyOpinia {  get; set; } = false;
+        public bool Znizka {  get; set; } = false;
         public virtual Rola Rola { get; set; }
     }
 }

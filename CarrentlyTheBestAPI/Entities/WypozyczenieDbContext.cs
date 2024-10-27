@@ -24,5 +24,6 @@ namespace CarrentlyTheBestAPI.Entities
         public DbSet<Rola> Role {  get; set; }
         public DbSet<Uzytkownik> Uzytkownicy { get; set; }
         public DbSet<Zgloszenie> Zgloszenia { get; set; }
+        public DbSet<Opinia> Opinie { get; set; }
     }
 }

@@ -3,6 +3,7 @@ using System;
 using CarrentlyTheBestAPI.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace CarrentlyTheBestAPI.Migrations
 {
     [DbContext(typeof(WypozyczenieDbContext))]
-    partial class WypozyczenieDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241027104542_Opinia")]
+    partial class Opinia
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -33,7 +36,7 @@ namespace CarrentlyTheBestAPI.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("AutorId")
+                    b.Property<int>("Autorid")
                         .HasColumnType("integer");
 
                     b.Property<int>("Ocena")
@@ -45,7 +48,7 @@ namespace CarrentlyTheBestAPI.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AutorId");
+                    b.HasIndex("Autorid");
 
                     b.ToTable("Opinie");
                 });
@@ -225,7 +228,7 @@ namespace CarrentlyTheBestAPI.Migrations
                 {
                     b.HasOne("CarrentlyTheBestAPI.Entities.Uzytkownik", "Autor")
                         .WithMany()
-                        .HasForeignKey("AutorId")
+                        .HasForeignKey("Autorid")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

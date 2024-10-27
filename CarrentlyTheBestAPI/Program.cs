@@ -68,6 +68,7 @@ builder.Services.AddScoped<IUzytkownikService, UzytkownikService>();
 builder.Services.AddScoped<IZgloszenieService, ZgloszenieService>();
 builder.Services.AddTransient<IFileService, FileService>();
 builder.Services.AddScoped<IValidator<Rejestracja>, RejestracjaValidator>();
+builder.Services.AddScoped<IOpiniaService, OpiniaService>();
 builder.Services.AddSwaggerGen();
 var app = builder.Build();
 

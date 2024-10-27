@@ -3,6 +3,7 @@ using System;
 using CarrentlyTheBestAPI.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace CarrentlyTheBestAPI.Migrations
 {
     [DbContext(typeof(WypozyczenieDbContext))]
-    partial class WypozyczenieDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241027115604_opinia_email")]
+    partial class opinia_email
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -32,6 +35,10 @@ namespace CarrentlyTheBestAPI.Migrations
                         .HasColumnType("integer");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("AutorEmail")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<int>("AutorId")
                         .HasColumnType("integer");
