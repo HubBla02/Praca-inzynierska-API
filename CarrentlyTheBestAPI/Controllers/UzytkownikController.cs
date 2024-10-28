@@ -26,7 +26,7 @@ namespace CarrentlyTheBestAPI.Controllers
         }
 
         [HttpGet("{id}")]
-        [Authorize(Roles = "Admin")]
+        [Authorize]
         public ActionResult<Uzytkownik> GetById([FromRoute] int id)
         {
             var uzytkownik = _uzytkownikService.GetById(id);

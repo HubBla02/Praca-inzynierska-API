@@ -32,7 +32,7 @@ namespace CarrentlyTheBestAPI.Controllers
         }
 
         [HttpDelete("{id}")]
-        [Authorize(Roles = "Admin")]
+        [Authorize]
         public ActionResult UsunOpinie([FromRoute] int id)
         {
             var isDeleted = _opiniaService.DeleteById(id);

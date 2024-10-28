@@ -53,6 +53,10 @@ namespace CarrentlyTheBestAPI.Services
 
             wypozyczenie.Pojazd = pojazd;
             wypozyczenie.UzytkownikEmail = uzytkownik.Email;
+            if (uzytkownik.Znizka == true)
+            {
+                uzytkownik.Znizka = false;
+            }
             _dbContext.Wypozyczenia.Add(wypozyczenie);
             _dbContext.SaveChanges();
             return wypozyczenie.Id;
