@@ -9,21 +9,6 @@
         public float Cena { get; set; }
         public DateTime DataRozpoczecia { get; set; }
         public DateTime DataZakonczenia { get; set; }
-
-        public TimeSpan Dlugosc
-        {
-            get
-            {
-                return DataZakonczenia - DataRozpoczecia;
-            }
-        }
-
-        public bool CzyDlugoterminowy
-        {
-            get
-            {
-                return Dlugosc.TotalHours > 24;
-            }
-        }
+        public bool CzyZakonczone { get; set; } = false;
     }
 }

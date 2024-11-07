@@ -11,10 +11,27 @@ namespace CarrentlyTheBestAPI.Services
         {
             _dbContext = dbContext;
         }
-        public IEnumerable<Wypozyczenie> GetAll()
+        public async Task<List<Wypozyczenie>> GetAll(int filtr, int? miesiac, int? rok)
         {
-            var wypozyczenia = _dbContext.Wypozyczenia.ToList();
-            return wypozyczenia;
+            var wypozyczenia = filtr switch
+            {
+                0 =>  _dbContext.Wypozyczenia,
+                1 =>  _dbContext.Wypozyczenia.Where(w => !w.CzyZakonczone), 
+                2 =>  _dbContext.Wypozyczenia.Where(w => w.CzyZakonczone), 
+                _ =>  _dbContext.Wypozyczenia
+            };
+
+            if (miesiac.HasValue)
+            {
+                wypozyczenia = wypozyczenia.Where(w => w.DataZakonczenia.Month == miesiac.Value);
+            }
+
+            if (rok.HasValue)
+            {
+                wypozyczenia = wypozyczenia.Where(w => w.DataZakonczenia.Year == rok.Value);
+            }
+
+            return await wypozyczenia.ToListAsync();
         }
 
         public IEnumerable<Wypozyczenie> GetByUserEmail(string email)
@@ -72,6 +89,21 @@ namespace CarrentlyTheBestAPI.Services
             }
             wypozyczenie.Pojazd.Dostepny = true;
             _dbContext.Wypozyczenia.Remove(wypozyczenie);
+            _dbContext.SaveChanges();
+            return true;
+        }
+
+        public bool ZakonczWypozyczenie(int id)
+        {
+            var wypozyczenie = _dbContext.Wypozyczenia
+                 .Include(w => w.Pojazd)
+                 .FirstOrDefault(p => p.Id == id);
+            if (wypozyczenie == null)
+            {
+                return false;
+            }
+            wypozyczenie.Pojazd.Dostepny = true;
+            wypozyczenie.CzyZakonczone = true;
             _dbContext.SaveChanges();
             return true;
         }

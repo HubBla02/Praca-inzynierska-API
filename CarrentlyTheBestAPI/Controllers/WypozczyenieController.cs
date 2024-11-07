@@ -17,15 +17,26 @@ namespace CarrentlyTheBestAPI.Controllers
         {
             _wypozyczenieService = wypozyczenieService;
         }
-        [HttpGet("lista")]
+        [HttpGet("lista/{filtr}")]
         [Authorize(Roles = "Admin")]
-        public ActionResult<IEnumerable<Wypozyczenie>> GetAll()
+        public async Task<ActionResult<List<Wypozyczenie>>> GetAll([FromRoute] int filtr, [FromQuery] int? miesiac = null, [FromQuery] int? rok = null)
         {
-            var wypozyczenia = _wypozyczenieService.GetAll();
+            var wypozyczenia = await _wypozyczenieService.GetAll(filtr, miesiac, rok);
             return Ok(wypozyczenia);
         }
 
-        [Authorize]
+        [HttpPatch("{id}")]
+        [Authorize(Roles = "Admin")]
+        public ActionResult ZakonczWypozyczenie([FromRoute] int id)
+        {
+            var isFinished = _wypozyczenieService.ZakonczWypozyczenie(id);
+            if (isFinished)
+            {
+                return NoContent();
+            }
+            return NotFound();
+        }
+
         [HttpGet("moje")]
         public ActionResult<IEnumerable<Wypozyczenie>> GetUserRentals()
         {

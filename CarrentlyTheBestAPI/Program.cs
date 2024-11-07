@@ -38,6 +38,7 @@ builder.Services.AddAuthentication(option =>
 
 // Add services to the container.
 builder.Services.AddRazorPages();
+builder.Services.AddHostedService<WypozyczenieCheckerService>();
 builder.Services.AddDbContext<WypozyczenieDbContext>(options =>
 options.UseSqlServer(builder.Configuration.GetConnectionString("WypozyczalniaDB")));
 builder.Services.AddControllers(options =>
