@@ -25,7 +25,7 @@ Aplikacja umożliwia zarządzanie wynajmem pojazdów, w tym rejestrację użytko
 
 ### 2️⃣ Klonowanie repozytorium
 ```sh
-git clone https://github.com/twoje-repo/backend.git
+git clone https://github.com/HubBla02/Praca-inzynierska-API.git
 cd backend
 ```
 
